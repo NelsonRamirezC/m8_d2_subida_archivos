@@ -24,12 +24,12 @@ const uploadFiles = (req, res, next) => {
         );
 
         foto.mv(pathDestino, async (error) => {
-            if (error)
-                return res.status(500).json({
-                    code: 500,
-                    message:
-                        "Error al subir la imagen en proceso de creación de producto.",
-                });
+            if (error) console.log(error);
+            return res.status(500).json({
+                code: 500,
+                message:
+                    "Error al subir la imagen en proceso de creación de producto.",
+            });
 
             req.nombreImagen = nombreFoto;
             req.pathImagen = pathDestino;
