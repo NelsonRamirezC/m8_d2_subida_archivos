@@ -1,8 +1,15 @@
 import Producto from "../models/Producto.models.js";
 import fs from "fs";
 
-export const findAllProductos = (req, res) => {
-    res.send("Ruta findAll Productos.");
+export const findAllProductos = async(req, res) => {
+    try {
+        let productos = await Producto.findAll({
+            attributes: {exclude: ["createdAt", "updatedAt"]}
+        });
+        res.json({code: 200, message:"OK", data: productos})
+    } catch (error) {
+        res.status(500).json({code: 500, message: "Error al consultar los productos."})
+    }
 };
 
 export const addProductos = async (req, res) => {
@@ -16,6 +23,7 @@ export const addProductos = async (req, res) => {
             descripcion,
             precio: Number(precio),
             img: req.nombreImagen,
+            rutaImagen: `/public/uploads/${req.nombreImagen}`,
         };
 
         let productoCreado = await Producto.create(nuevoProducto);
