@@ -17,11 +17,7 @@ const uploadFiles = (req, res, next) => {
             });
         }
         let nombreFoto = `${Date.now()}-img.${extension}`;
-        let pathDestino = path.join(
-            __dirname,
-            "/../../public/uploads",
-            nombreFoto
-        );
+        let pathDestino = path.resolve(__dirname, "../../public/uploads/" + nombreFoto);
 
         foto.mv(pathDestino, async (error) => {
             if (error) {
