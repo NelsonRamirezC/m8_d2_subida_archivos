@@ -1,11 +1,10 @@
 import app from "./src/app.js";
-import "dotenv/config"; //cargamos variables de entorno desde .env
 import sequelize from "./src/database/database.js";
 
 //modelos
-import "./src/models/Producto.models.js"
+import "./src/models/Producto.models.js";
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 const main = async () => {
     try {
