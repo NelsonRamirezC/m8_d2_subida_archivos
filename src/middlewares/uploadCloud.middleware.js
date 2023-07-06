@@ -6,7 +6,7 @@ cloudinary.config({
     api_secret: process.env.STORAGE_SECRET,
 });
 
-const uploadFiles = (req, res, next) => {
+export const uploadFiles = (req, res, next) => {
     try {
         let foto = req.files.foto;
         let formatosPermitidos = ["jpeg", "png", "webp", "gif", "svg"];
@@ -45,4 +45,12 @@ const uploadFiles = (req, res, next) => {
     }
 };
 
-export default uploadFiles;
+
+export const deleteFile = (imagenId) => {
+    cloudinary.uploader.destroy(imagenId, (error, result) =>{
+        if (error) {
+            return console.log("Error al eliminar la imagen del servicio cloud: ", error);
+        }
+        console.log(`Imagen con ID: ${imagenId} ha sido eliminada con éxito el servicio cloud.`);
+    });
+}
