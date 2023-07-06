@@ -1,30 +1,24 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/database.js";
 
-
-const Producto = sequelize.define(
-    "productos",
+const Usuario = sequelize.define(
+    "usuarios",
     {
         nombre: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        descripcion: {
+        rut: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
-        precio: {
-            type: DataTypes.DECIMAL(11, 2),
-        },
-        img: {
+        email: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
         },
-        rutaImagen: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        publicIdImagen: {
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -34,4 +28,4 @@ const Producto = sequelize.define(
     }
 );
 
-export default Producto;
+export default Usuario;

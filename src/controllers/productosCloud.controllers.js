@@ -29,6 +29,7 @@ export const addProductos = async (req, res) => {
             precio: Number(precio),
             img: req.nombreImagen,
             rutaImagen: req.pathImagen,
+            publicIdImagen: req.imagenId,
         };
 
         let productoCreado = await Producto.create(nuevoProducto);

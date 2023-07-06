@@ -35,6 +35,7 @@ export const uploadFiles = (req, res, next) => {
                 req.nombreImagen = foto.name;
                 req.pathImagen = result.url;
                 req.imagenId = result.public_id;
+                
                 next();
             }).end(foto.data);
     } catch (error) {
