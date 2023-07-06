@@ -1,15 +1,19 @@
 import Producto from "../models/Producto.models.js";
+import Usuario from "../models/Usuario.models.js";
 import fs from "fs";
 
-export const findAllProductos = async(req, res) => {
+export const findAllProductos = async (req, res) => {
     try {
         let productos = await Producto.findAll({
-            attributes: {exclude: ["createdAt", "updatedAt"]}
+            attributes: { exclude: ["createdAt", "updatedAt"] },
         });
-        res.json({code: 200, message:"OK", data: productos})
+        res.json({ code: 200, message: "OK", data: productos });
     } catch (error) {
-        console.log()
-        res.status(500).json({code: 500, message: "Error al consultar los productos."})
+        console.log();
+        res.status(500).json({
+            code: 500,
+            message: "Error al consultar los productos.",
+        });
     }
 };
 
@@ -25,7 +29,7 @@ export const addProductos = async (req, res) => {
             precio: Number(precio),
             img: req.nombreImagen,
             rutaImagen: `/public/uploads/${req.nombreImagen}`,
-            publicIdImagen: 0
+            publicIdImagen: 0,
         };
 
         let productoCreado = await Producto.create(nuevoProducto);
@@ -38,7 +42,9 @@ export const addProductos = async (req, res) => {
     } catch (error) {
         console.log(error);
         fs.unlinkSync(req.pathImagen);
-        res.status(500).json({code: 500, message:"Error al crear el producto en la base de datos."})
+        res.status(500).json({
+            code: 500,
+            message: "Error al crear el producto en la base de datos.",
+        });
     }
-
 };

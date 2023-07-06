@@ -1,6 +1,7 @@
 import Producto from "../models/Producto.models.js";
 import { deleteFile } from "../middlewares/uploadCloud.middleware.js";
 
+
 export const findAllProductos = async (req, res) => {
     try {
         let productos = await Producto.findAll({

@@ -17,3 +17,56 @@ export const emitToken = async (req, res, next) => {
     req.token = token;
     next();
 };
+
+export const verifyToken = (req, res, next) => {
+    try {
+        let token = req.headers["authorization"];
+        token = token.split(" ")[1];
+        console.log(token);
+        if (token.length == 0) {
+            throw new Error("No se ha proporcionado un token");
+        }
+
+        jwt.verify(
+            token,
+            process.env.PASSWORD_SECRET,
+            async (error, decoded) => {
+                if (error) {
+                    return res.status(401).json({
+                        code: 401,
+                        message: "debe proporcionar un token válido.",
+                    });
+                }
+
+                let usuario = await Usuario.findByPk(decoded.id);
+                if (!usuario) {
+                    return res.status(400).json({
+                        code: 400,
+                        message: "Usuario ya no existe en el sistema.",
+                    });
+                }
+                req.usuario = usuario;
+
+                next();
+            }
+        );
+    } catch (error) {
+        return res.status(401).json({
+            code: 401,
+            message: error.message,
+        });
+    }
+};
+
+export const validarAdmin = async (req, res, next) => {
+    let usuario = req.usuario;
+
+    if (!usuario.admin) {
+        return res.status(403).json({
+            code: 403,
+            message:
+                "Usted no tiene los permisos necesarios para crear un producto.",
+        });
+    }
+    next();
+};
