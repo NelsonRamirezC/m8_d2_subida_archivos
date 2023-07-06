@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 //importaciones de rutas
 import productosRoutes from "./routes/productos.routes.js";
+import usuariosRoutes from "./routes/usuarios.routes.js";
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.use("/public", express.static(path.resolve(__dirname, "../public")));
 
 //rutas
 app.use("/api/v1/productos", productosRoutes);
+app.use("/api/v1/usuarios", usuariosRoutes);
 
 export default app;
