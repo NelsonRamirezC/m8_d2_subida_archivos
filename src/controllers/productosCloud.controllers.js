@@ -1,5 +1,4 @@
 import Producto from "../models/Producto.models.js";
-import fs from "fs";
 
 export const findAllProductos = async(req, res) => {
     try {
@@ -18,13 +17,14 @@ export const addProductos = async (req, res) => {
     let { nombre, descripcion, precio } = req.body;
     //req.nombreImagen -> viene desde middleware
     //req.pathImagen ->viene desde middleware
+    //req.imagenId -> id de la imagen en cloudinary
     try {
         let nuevoProducto = {
             nombre,
             descripcion,
             precio: Number(precio),
             img: req.nombreImagen,
-            rutaImagen: `/public/uploads/${req.nombreImagen}`,
+            rutaImagen: req.pathImagen,
         };
 
         let productoCreado = await Producto.create(nuevoProducto);
@@ -36,7 +36,6 @@ export const addProductos = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        fs.unlinkSync(req.pathImagen);
         res.status(500).json({code: 500, message:"Error al crear el producto en la base de datos."})
     }
 
