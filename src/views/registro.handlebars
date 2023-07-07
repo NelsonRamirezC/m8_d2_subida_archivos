@@ -94,7 +94,7 @@
     formRegistro.addEventListener("submit", (event)=> { 
         event.preventDefault();
         if(registroReplyPassword.value != registroPassword.value){ 
-            return alert("Elpassword no coincide.") 
+            return alert("Elpassword no coincide.");
         } const myHeaders = new Headers();
         
         myHeaders.append("Content-Type", "application/json"); 
@@ -114,11 +114,11 @@
         .then(response =>response.json())
         .then(result => { 
             if(result.code == 201){
-                alert(result.message) location.href = "/login" 
+                alert(result.message);
+                location.href = "/login";
             }else{
-                alert(result.message)
+                alert(result.message);
             } 
         }) .catch(error => console.log('error', error)); 
     })
-
 </script>
