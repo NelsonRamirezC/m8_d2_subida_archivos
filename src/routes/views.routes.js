@@ -19,12 +19,16 @@ router.get("/dashboard", verifyToken, validarAdmin, (req, res) => {
     res.render("dashboard");
 });
 
-
 router.get("/perfil", verifyToken, async (req, res) => {
     let usuario = req.usuario;
     res.render("perfil", {
         usuario: usuario.dataValues,
     });
 });
+
+router.get("/protegida", verifyToken, async (req, res) => {
+    console.log("Entramos a la ruta.")
+    res.render("protegida");
+})
 
 export default router;

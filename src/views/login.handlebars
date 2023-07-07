@@ -88,7 +88,7 @@
             .then(result => {
                 if(result.code==200){
                     alert(result.message)
-                    localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Nywibm9tYnJlIjoiRW1pbGlvIiwicnV0IjoiMi4yMjIuMjIyLTIiLCJlbWFpbCI6ImVtaWxpb0BnbWFpbC5jb20ifQ.OZoVY1Pr76pfxePSwdwe-S_LoEEj6WxlzdzK0-PbDJE")
+                    localStorage.setItem("token", result.token)
                     location.href="/"
                 }else{
                     alert(result.message)

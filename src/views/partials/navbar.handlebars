@@ -45,6 +45,20 @@
                         href=""
                     >Logout</a>
                 </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="linkProtegida"
+                        href=""
+                    >Protegida</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="linkDashboard"
+                        href=""
+                    >Dashboard</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -56,12 +70,16 @@
     let linkLogout = document.getElementById("linkLogout");
     let linkLogin = document.getElementById("linkLogin");
     let linkPerfil = document.getElementById("linkPerfil");
+    let linkProtegida= document.getElementById("linkProtegida");
+    let linkDashboard= document.getElementById("linkDashboard");
 
     if(token){
         linkLogin.style.display = "none";
     }else{
         linkLogout.style.display = "none";
         linkPerfil.style.display = "none";
+        linkProtegida.style.display = "none";
+        linkDashboard.style.display = "none";
     }
 
     linkLogout.addEventListener("click", (event) => {
@@ -71,10 +89,105 @@
         location.reload();
     })
 
-    linkPerfil.addEventListener("click", (event) => {
+    
+        linkPerfil.addEventListener("click", (event) => {
+            event.preventDefault();
+            let token = localStorage.getItem("token");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("/perfil", requestOptions)
+            .then(response => {
+                if(response.status == 401 || response.status == 403){
+                    throw new Error("No tiene permisos.")
+                }
+                return response.text(); 
+            })
+            .then(result => {
+                let html = result;
+                const objDOMParse = new DOMParser();
+                let documento = objDOMParse.parseFromString(html, "text/html");
+                const newHtmlElement = documento.documentElement;
+               document.replaceChild(newHtmlElement, document.documentElement)
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+            
+        })
+    
+
+
+    linkProtegida.addEventListener("click", (event) => {
         event.preventDefault();
-        if(token){
-            location.href = "/perfil?token="+token 
-        }
+
+        let token = localStorage.getItem("token");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("/protegida", requestOptions)
+            .then(response => {
+                if(response.status == 401 || response.status == 403){
+                    throw new Error("No tiene permisos.")
+                }
+                return response.text(); 
+            })
+            .then(result => {
+                let html = result;
+                const objDOMParse = new DOMParser();
+                let documento = objDOMParse.parseFromString(html, "text/html");
+                const newHtmlElement = documento.documentElement;
+               document.replaceChild(newHtmlElement, document.documentElement)
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    })
+
+    linkDashboard.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        let token = localStorage.getItem("token");
+
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("/dashboard", requestOptions)
+            .then(response => {
+                if(response.status == 401 || response.status == 403){
+                    throw new Error("No tiene permisos.")
+                }
+                return response.text(); 
+            })
+            .then(result => {
+                let html = result;
+                const objDOMParse = new DOMParser();
+                let documento = objDOMParse.parseFromString(html, "text/html");
+                const newHtmlElement = documento.documentElement;
+               document.replaceChild(newHtmlElement, document.documentElement)
+            })
+            .catch(error => {
+                alert(error.message);
+            });
     })
 </script>
