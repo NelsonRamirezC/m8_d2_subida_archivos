@@ -99,10 +99,10 @@
         
         myHeaders.append("Content-Type", "application/json"); 
         const raw = JSON.stringify({
-            "nombre": registroNombre.value, 
-            "rut": registroRut.value,
-            "email": registroEmail.value,
-            "password": registroPassword.value
+            nombre: registroNombre.value, 
+            rut: registroRut.value,
+            email: registroEmail.value,
+            password: registroPassword.value
         }); 
         const requestOptions = { 
             method: 'POST', 
