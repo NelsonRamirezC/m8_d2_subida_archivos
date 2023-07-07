@@ -27,12 +27,21 @@ export const emitToken = async (req, res, next) => {
 
 export const verifyToken = (req, res, next) => {
     try {
-        let token = req.headers["authorization"];
-        if(!token) return res.status(400).send("ruta protegida, debe proporcionar un token de acceso.")
-        token = token.split(" ")[1];
+        let { token } = req.query;
         console.log(token);
-        if (token.length == 0) {
-            throw new Error("No se ha proporcionado un token");
+        if (!token) {
+             token = req.headers["authorization"];
+             if (!token)
+                 return res
+                     .status(400)
+                     .send(
+                         "ruta protegida, debe proporcionar un token de acceso."
+                     );
+             token = token.split(" ")[1];
+             console.log(token);
+             if (token.length == 0) {
+                 throw new Error("No se ha proporcionado un token");
+             }
         }
 
         jwt.verify(
