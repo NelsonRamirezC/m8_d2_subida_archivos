@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyToken } from "../middlewares/auth.middleware.js";
+import { verifyToken, validarAdmin } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 //ruta post usuarios
@@ -15,9 +15,16 @@ router.get("/registro", (req, res) => {
     res.render("registro");
 });
 
+router.get("/dashboard", verifyToken, validarAdmin, (req, res) => {
+    res.render("dashboard");
+});
+
+
 router.get("/perfil", verifyToken, async (req, res) => {
     let usuario = req.usuario;
-    res.send(`<h1>Bienvenido usuario: ${usuario.nombre}</h1>`);
+    res.render("perfil", {
+        usuario: usuario.dataValues,
+    });
 });
 
 export default router;

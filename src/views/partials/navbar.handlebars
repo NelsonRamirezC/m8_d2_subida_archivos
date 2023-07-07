@@ -1,27 +1,80 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Principal</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="linkProductos" href="/productos">Productos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="linkPerfil" href="/perfil">Perfil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="linkLlogin" href="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="linkLogout" href="/logout">Logout</a>
-        </li>
-      </ul>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a
+                        class="nav-link active"
+                        aria-current="page"
+                        href="/"
+                    >Principal</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="linkProductos"
+                        href="/productos"
+                    >Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="linkPerfil"
+                        href=""
+                    >Perfil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="linkLogin" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        id="linkLogout"
+                        href=""
+                    >Logout</a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
+
+<script>
+
+    let token = localStorage.getItem("token");
+    let linkLogout = document.getElementById("linkLogout");
+    let linkLogin = document.getElementById("linkLogin");
+    let linkPerfil = document.getElementById("linkPerfil");
+
+    if(token){
+        linkLogin.style.display = "none";
+    }else{
+        linkLogout.style.display = "none";
+        linkPerfil.style.display = "none";
+    }
+
+    linkLogout.addEventListener("click", (event) => {
+        event.preventDefault();
+        localStorage.removeItem("token");
+        alert("Se ha cerrado sesión.")
+        location.reload();
+    })
+
+    linkPerfil.addEventListener("click", (event) => {
+        event.preventDefault();
+        if(token){
+            location.href = "/perfil?token="+token 
+        }
+    })
+</script>

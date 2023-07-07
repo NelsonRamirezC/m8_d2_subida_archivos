@@ -20,11 +20,14 @@ export const emitToken = async (req, res, next) => {
 
 export const verifyToken = (req, res, next) => {
     try {
-        let token = req.headers["authorization"];
-        token = token.split(" ")[1];
-        console.log(token);
-        if (token.length == 0) {
-            throw new Error("No se ha proporcionado un token");
+        let { token } = req.query;
+        if (!token) {
+            token = req.headers["authorization"];
+            token = token.split(" ")[1];
+            console.log(token);
+            if (token.length == 0) {
+                throw new Error("No se ha proporcionado un token");
+            }
         }
 
         jwt.verify(
@@ -38,7 +41,9 @@ export const verifyToken = (req, res, next) => {
                     });
                 }
 
-                let usuario = await Usuario.findByPk(decoded.id);
+                let usuario = await Usuario.findByPk(decoded.id, {
+                    attributes: ["id", "nombre", "rut", "email", "admin"],
+                });
                 if (!usuario) {
                     return res.status(400).json({
                         code: 400,
@@ -65,7 +70,7 @@ export const validarAdmin = async (req, res, next) => {
         return res.status(403).json({
             code: 403,
             message:
-                "Usted no tiene los permisos necesarios para crear un producto.",
+                "Usted no tiene los permisos necesarios para continuar.",
         });
     }
     next();

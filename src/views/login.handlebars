@@ -4,7 +4,7 @@
             <h2 class="text-center text-dark mt-5">Login Form</h2>
             <div class="card my-5">
 
-                <form class="card-body cardbody-color p-lg-5">
+                <form class="card-body cardbody-color p-lg-5" id="formLogin">
 
                     <div class="text-center">
                         <img
@@ -23,6 +23,7 @@
                             name="email"
                             aria-describedby="emailHelp"
                             placeholder="Email"
+                            required
                         />
                     </div>
                     <div class="mb-3">
@@ -32,6 +33,7 @@
                             id="loginPassword"
                             name="password"
                             placeholder="password"
+                            required
                         />
                     </div>
                     <div class="text-center"><button
@@ -57,3 +59,41 @@
     height: 200px; width: 200px; object-fit: cover; } .cardbody-color{
     background-color: #ebf2fa; } a{ text-decoration: none; }
 </style>
+
+
+<script>
+
+    const formLogin = document.getElementById("formLogin");
+
+    formLogin.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "email": loginEmail.value,
+            "password": loginPassword.value
+        });
+
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("/api/v1/usuarios/login", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if(result.code==200){
+                    alert(result.message)
+                    localStorage.setItem("token", "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6Nywibm9tYnJlIjoiRW1pbGlvIiwicnV0IjoiMi4yMjIuMjIyLTIiLCJlbWFpbCI6ImVtaWxpb0BnbWFpbC5jb20ifQ.OZoVY1Pr76pfxePSwdwe-S_LoEEj6WxlzdzK0-PbDJE")
+                    location.href="/"
+                }else{
+                    alert(result.message)
+                }
+            })
+            .catch(error => console.log('error', error));
+        })
+</script>
