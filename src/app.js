@@ -5,12 +5,24 @@ import morgan from "morgan";
 import * as path from "path";
 import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { create } from "express-handlebars";
+
 //importaciones de rutas
 import productosRoutes from "./routes/productos.routes.js";
 import usuariosRoutes from "./routes/usuarios.routes.js";
 import viewsRoutes from "./routes/views.routes.js";
 
 const app = express();
+
+//configuración handlebars
+
+const hbs = create({
+    partialsDir: [path.resolve(__dirname, "./views/partials")],
+});
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+app.set("views", path.resolve(__dirname, "./views"));
 
 //middlewares generales
 
