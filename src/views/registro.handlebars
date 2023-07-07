@@ -90,16 +90,35 @@
 <script>
 
     const formRegistro = document.getElementById("formRegistro");
-    formRegistro.addEventListener("submit", (event)=> { event.preventDefault();
-    if(registroReplyPassword.value != registroPassword.value){ return alert("El
-    password no coincide.") } const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json"); const raw =
-    JSON.stringify({ "nombre": registroNombre.value, "rut": registroRut.value,
-    "email": registroEmail.value, "password": registroPassword.value }); const
-    requestOptions = { method: 'POST', headers: myHeaders, body: raw, redirect:
-    'follow' }; fetch("/api/v1/usuarios", requestOptions) .then(response =>
-    response.json()) .then(result => { if(result.code == 201){
-    alert(result.message) location.href = "/login" }else{ alert(result.message)
-    } }) .catch(error => console.log('error', error)); })
+
+    formRegistro.addEventListener("submit", (event)=> { 
+        event.preventDefault();
+        if(registroReplyPassword.value != registroPassword.value){ 
+            return alert("Elpassword no coincide.") 
+        } const myHeaders = new Headers();
+        
+        myHeaders.append("Content-Type", "application/json"); 
+        const raw = JSON.stringify({
+            "nombre": registroNombre.value, 
+            "rut": registroRut.value,
+            "email": registroEmail.value,
+            "password": registroPassword.value
+        }); 
+        const requestOptions = { 
+            method: 'POST', 
+            headers: myHeaders, 
+            body: raw, 
+            redirect:'follow' 
+        }; 
+        fetch("/api/v1/usuarios", requestOptions)
+        .then(response =>response.json())
+        .then(result => { 
+            if(result.code == 201){
+                alert(result.message) location.href = "/login" 
+            }else{
+                alert(result.message)
+            } 
+        }) .catch(error => console.log('error', error)); 
+    })
 
 </script>
